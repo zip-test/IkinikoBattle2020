@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private Animator animator;
     [SerializeField] private float moveSpeed = 3;   // 移動速度
-    [SerializeField] private float jumpPower = 3;   // ジャンプ力
+    [SerializeField] private float jumpPower = 4;   // ジャンプ力
 
     private CharacterController _characterController;
     private Transform _transform;
@@ -31,10 +31,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         _characterController = GetComponent<CharacterController>();
-        // 毎フレームアクセスするので、負荷を下げるためにキャッシュしておく
-        _transform = transform;
         _status = GetComponent<PlayerStatus>();
         _attack = GetComponent<MobAttack>();
+        // 毎フレームアクセスするので、負荷を下げるためにキャッシュしておく
+        _transform = transform;
     }
 
     private void Update()
@@ -48,6 +48,7 @@ public class PlayerController : MonoBehaviour
 
         if (_status.IsMovable)
         {
+            // 入力軸による移動処理（惰性を無視しているので、キビキビ動く）
             _moveVelocity.x = CrossPlatformInputManager.GetAxis("Horizontal") * moveSpeed;
             _moveVelocity.z = CrossPlatformInputManager.GetAxis("Vertical") * moveSpeed;
             // 移動方向に向く
@@ -56,12 +57,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             _moveVelocity.x = 0;
-            _moveVelocity.y = 0;
+            _moveVelocity.z = 0;
         }
-
-        // _moveVelocity.x = CrossPlatformInputManager.GetAxis("Horizontal") * moveSpeed;
-        // _moveVelocity.z = CrossPlatformInputManager.GetAxis("Vertical") * moveSpeed;
-        // _transform.LookAt(_transform.position + new Vector3(_moveVelocity.x, 0, _moveVelocity.z));
 
         if (IsGrounded)
         {
@@ -80,6 +77,7 @@ public class PlayerController : MonoBehaviour
             _characterController.Move(_moveVelocity * Time.deltaTime);
         }
 
+        // 移動スピードをanimationに反映
         animator.SetFloat("MoveSpeed", new Vector3(_moveVelocity.x, 0, _moveVelocity.z).magnitude);
     }
 }

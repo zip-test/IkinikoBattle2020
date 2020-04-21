@@ -20,9 +20,11 @@ public class CollisionDetector : MonoBehaviour
     /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
     {
+        // onTrigerStayで指定された処理を実行する
         onTriggerStay.Invoke(other);
     }
 
+    // UnitiEventを継承したクラスに[Serializable]属性を付与することで、Inspectorウィンドウ上に表示できるようになる。
     [Serializable]
     public class TriggerEvent : UnityEvent<Collider>
     {

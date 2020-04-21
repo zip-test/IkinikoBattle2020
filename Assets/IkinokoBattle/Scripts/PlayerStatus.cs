@@ -12,6 +12,7 @@ public class PlayerStatus : MobStatus
 
     private IEnumerator GoToGameOverCoroutine()
     {
+        // 3秒待ってからゲームオーバーシーンへ遷移
         yield return new WaitForSeconds(3);
         SceneManager.LoadScene("GameOverScene");
     }
