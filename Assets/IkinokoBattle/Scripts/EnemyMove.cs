@@ -19,7 +19,7 @@ public class EnemyMove : MonoBehaviour
 
     public void OnDetectObject(Collider collider)
     {
-        // spawner を利用した際にStart()を経由しない？ためここで初期化
+        // spawner を利用した際にStart()を経由しない？ため、ここで初期化処理を行う
         _status = _status ?? GetComponent<EnemyStatus>();
         _agent = _agent ?? GetComponent<NavMeshAgent>();
 
